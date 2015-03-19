@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="492.5"
+   height="482.5"
+   id="svg2"
+   xml:space="preserve"><metadata
+     id="metadata8"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+     id="defs6" /><g
+     transform="matrix(1.25,0,0,-1.25,0,482.5)"
+     id="g10"><path
+       d="m 317.2,275.099 -242.534,0 0,88.234 242.534,0 0,-88.234 z"
+       id="path12"
+       style="fill:#2b2b2a;fill-opacity:1;fill-rule:nonzero;stroke:#2b2b2a;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none" /><path
+       d="m 342.79,140.421 -293.715,0 0,115.563 293.715,0 0,-115.563 z"
+       id="path14"
+       style="fill:#2b2b2a;fill-opacity:1;fill-rule:nonzero;stroke:#2b2b2a;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none" /><path
+       d="m 384.331,16 -376.796,0 0,93.586 376.796,0 0,-93.586 z"
+       id="path16"
+       style="fill:#2b2b2a;fill-opacity:1;fill-rule:nonzero;stroke:#2b2b2a;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none" /><g
+       transform="translate(7.5346,109.586)"
+       id="g18"><path
+         d="m 0,0 41.541,30.835 293.714,0 L 376.796,0 0,0 z"
+         id="path20"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none" /></g><g
+       transform="translate(7.5346,109.586)"
+       id="g22"><path
+         d="m 0,0 41.541,30.835 293.714,0 L 376.796,0 0,0 z"
+         id="path24"
+         style="fill:none;stroke:#2b2b2a;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none" /></g><g
+       transform="translate(49.0752,255.9836)"
+       id="g26"><path
+         d="m 0,0 25.59,19.116 242.534,0 L 293.715,0 0,0 z"
+         id="path28"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none" /></g><g
+       transform="translate(49.0752,255.9836)"
+       id="g30"><path
+         d="m 0,0 25.59,19.116 242.534,0 L 293.715,0 0,0 z"
+         id="path32"
+         style="fill:none;stroke:#2b2b2a;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none" /></g><text
+       transform="matrix(1,0,0,-1,93.7236,153.103)"
+       id="text34"><tspan
+         x="0 8.4450626 16.305876 24.936834 34.603512 43.446926 47.828796 62.992729 73.88102 81.423149 91.249168 95.631035 106.4131 117.56696 121.94882 129.80963 140.85727 149.48822 153.8701 162.31516 168.98091 179.8692 184.38387 194.55511"
+         y="0"
+         id="tspan36"
+         style="font-size:26.55680084px;font-variant:normal;font-weight:300;font-stretch:condensed;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Gotham HTF Light Condensed;-inkscape-font-specification:GothamHTF-LightCondensed">STEPS WALK ON THE STAIRS</tspan></text>
+<text
+       transform="matrix(1,0,0,-1,170.1504,235.9175)"
+       id="text38"><tspan
+         x="0 9.7867279 20.964291 31.107208 40.817608"
+         y="0"
+         id="tspan40"
+         style="font-size:8.48069954px;font-variant:normal;font-weight:bold;font-stretch:normal;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Idlewild Bold;-inkscape-font-specification:Idlewild-Bold">TODAY</tspan></text>
+<text
+       x="197"
+       y="-185.27379"
+       text-anchor="middle"
+       transform="scale(1,-1)"
+       id="value"
+       style="font-size:56.93790054px;font-variant:normal;font-weight:900;font-stretch:normal;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:TSTAR PRO Headline;-inkscape-font-specification:TSTARPRO-Headline">0</text>
+</g></svg>
