@@ -10,10 +10,11 @@ var util = require('util'),
 /**
  * Queue constructor
  */
-var Queue = function(printer) {
-	this.printer = printer;
+var Queue = function(printers, tmpDir) {
+	this.printers = printers;
 	this.queue = [];
-	this.canPrint = true;
+	this.availablePrinters = this.printers;
+	this.tmpDir = tmpDir;
 };
 util.inherits(Queue, EventEmitter);
 
@@ -31,7 +32,7 @@ var currentLikes = 0;
 Queue.prototype.add = function(data) {
 	// trick for multiple visits and likes events
 	// we can recieive the same likes or visits events multiple times
-	// only add a likes or visits events to the queue if the value is 
+	// only add a likes or visits events to the queue if the value is
 	// not the same as the current one
 	if (data._id === 'visits') {
 		if (data.value !== currentVisits) {
@@ -54,8 +55,9 @@ Queue.prototype.add = function(data) {
 Queue.prototype.process = function() {
 	var _self = this;
 	// there is something to print and the printer is available
-	if (this.queue.length >= 1 && this.canPrint) {
-		this.canPrint = false;
+	if (this.queue.length >= 1 && this.availablePrinters.length > 0) {
+		// get firt available printer
+		var printer = this.availablePrinters.shift();
 		// get the event to print
 		var current = _self.queue.shift();
 		console.log('[Queue] ' + current._id + ', ' + current.value);
@@ -79,11 +81,11 @@ Queue.prototype.process = function() {
 		this.generateImage(current._id, printValues, function(err, dest) {
 			// generation is a success
 			if (dest && !err) {
-				_self.printer
+				printer
 					.printImage(dest)
 					.print(function() {
 						console.log('[Printer] done');
-						_self.canPrint = true;
+						_self.availablePrinters.push(printer);
 						_self.emit('data');
 					});
 			}
@@ -91,7 +93,7 @@ Queue.prototype.process = function() {
 			// go on with the next one in the queue
 			else {
 				console.log('[Printer] cannot print it, skipping it');
-				_self.canPrint = true;
+				_self.availablePrinters.push(printer);
 				_self.emit('data');
 			}
 		});
@@ -102,6 +104,7 @@ Queue.prototype.process = function() {
  * Generate PNG with the correct values from the corresponding SVG file.
  */
 Queue.prototype.generateImage = function(key, printValues, callback) {
+	var _self = this;
 	// odd/even ligthswitch SVG
 	if (key === 'lightswitch') {
 		key = values.lightswitch % 2 === 0 ? key += '_on' : key += '_off';
@@ -136,10 +139,10 @@ Queue.prototype.generateImage = function(key, printValues, callback) {
 		// generate a unique id that will be used to suffix generated SVGs and PNGs
 		var id = uuid.v1();
 		// save SVG in order to generate the corresponding PNG from it
-		var newFile = '/tmp/' + key + id + '.svg';
+		var newFile = _self.tmpDir + key + id + '.svg';
 		fs.writeFile(newFile, content, function(err) {
 			if(err) { callback(err, null); return; }
-			var destFile = '/tmp/' + key + id + '.png';
+			var destFile = _self.tmpDir + key + id + '.png';
 			// generate the scaled PNG from the generated SVG
 			svg2png(newFile, destFile, scale, function (err) {
 				// flip the image because of the printer way of printing
@@ -169,8 +172,8 @@ Queue.prototype.handleValues = function(current) {
 	// undo have a bit more info to display (user, app and date)
 	else if (current._id === 'undo') {
 		var date = new Date(current.date);
-		var time = 
-			(date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':' + 
+		var time =
+			(date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':' +
 			(date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':' +
 			(date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
 
