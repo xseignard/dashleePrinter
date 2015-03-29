@@ -71,7 +71,7 @@ Queue.prototype.printHello = function(countArray) {
 				function(printer, callback) {
 					var index = _self.printers.indexOf(printer);
 					// print the hello message
-					if (index > 5) {
+					if (index < 5) {
 						var file = __dirname + '/images/hello/' + index + '.png';
 						printer
 							.printImage(file)
@@ -81,8 +81,7 @@ Queue.prototype.printHello = function(countArray) {
 					}
 					// print the count
 					else {
-						console.log(countArray[index]);
-						_self.generateHelloNumber(countArray[index], function(err, dest) {
+						_self.generateHelloNumber(countArray[index - 5], function(err, dest) {
 							if (dest && !err) {
 								printer
 									.printImage(dest)
@@ -298,6 +297,13 @@ Queue.prototype.handleValues = function(current) {
 	else if (current._id === 'tracer') {
 		printValues = {
 			value: current.value
+		};
+	}
+	// water is in cl, divide by 100 
+	else if (current._id === 'water') {
+		printValues = {
+			value: current.value / 100,
+			date: time
 		};
 	}
 	// normal case for others

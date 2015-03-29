@@ -6,7 +6,7 @@ var fs = require('fs'),
 	io = require('socket.io-client'),
 	keypress = require('keypress'),
 	Queue = require('./queue'),
-	numberOfPrinters = 5,
+	numberOfPrinters = 10,
 	ports = Array.apply(null, Array(numberOfPrinters)).map(function (x, i) { return i + 1; }),
 	printers = [],
 	queue,
@@ -87,7 +87,7 @@ process.stdin.on('keypress', function (ch, key) {
 		for (var i = length; i < 5; i++) {
 			str = 0 + str + '';
 		}
-		queue.printHello(str.split('').reverse());
+		queue.printHello(str.split(''));
 	}
 });
 
