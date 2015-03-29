@@ -4,13 +4,15 @@ var fs = require('fs'),
 	async = require('async'),
 	Printer = require('thermalprinter'),
 	io = require('socket.io-client'),
+	keypress = require('keypress'),
 	Queue = require('./queue'),
 	numberOfPrinters = 5,
-	ports = Array.apply(null, Array(numberOfPrinters)).map(function (x, i) { return i; }),
+	ports = Array.apply(null, Array(numberOfPrinters)).map(function (x, i) { return i + 1; }),
 	printers = [],
 	queue,
 	client;
 
+// printer opts
 var opts = {
 	maxPrintingDots: 15,
 	heatingTime: 150,
@@ -26,10 +28,10 @@ if (fs.existsSync(tmpDir)) rimraf.sync(tmpDir);
 fs.mkdirSync(tmpDir);
 
 // open all serial ports and instanciate all printers
-async.each(
+async.eachSeries(
 	ports,
 	function(index, callback) {
-		var serialPort = new SerialPort('/dev/ttyUSB' + index, {
+		var serialPort = new SerialPort('/dev/printer' + index, {
 			baudrate: 19200
 		});
 		serialPort.on('open',function() {
@@ -66,6 +68,31 @@ async.each(
 	}
 );
 
+// button count
+var buttonCount = 0;
+
+// handle keypress (test before button)
+// make `process.stdin` begin emitting "keypress" events
+keypress(process.stdin);
+
+// listen for the "keypress" event
+process.stdin.on('keypress', function (ch, key) {
+	if (key && key.ctrl && key.name == 'c') {
+		process.emit('SIGTERM');
+	}
+	else {
+		buttonCount++;
+		var str = buttonCount.toString();
+		var length = str.length;
+		for (var i = length; i < 5; i++) {
+			str = 0 + str + '';
+		}
+		queue.printHello(str.split('').reverse());
+	}
+});
+
+process.stdin.setRawMode(true);
+process.stdin.resume();
 
 // shutdown hook
 var cleanup = function () {
