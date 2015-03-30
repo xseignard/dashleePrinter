@@ -57,21 +57,23 @@ Queue.prototype.add = function(data) {
 /**
  * Prints the hello message. Stops the printing que while printing it
  */
-Queue.prototype.printHello = function(countArray) {
+Queue.prototype.printHello = function(countArray ,callback) {
 	var _self = this;
 	// prevent new prints
 	this.canPrint = false;
 	// wait for all printers available
+	// repeatedly check if all printers are available
 	var interval = setInterval(function() {
 		if (_self.availablePrinters.length === _self.printers.length) {
+			// all printers are available, clear the interval
 			clearInterval(interval);
 			// since the printers are in the good order in the array, no need to sort them
 			async.each(
 				_self.printers,
 				function(printer, callback) {
 					var index = _self.printers.indexOf(printer);
-					// print the hello message
-					if (index < 5) {
+					// print the "button" message
+					if (index < 6) {
 						var file = __dirname + '/images/hello/' + index + '.png';
 						printer
 							.printImage(file)
@@ -81,7 +83,7 @@ Queue.prototype.printHello = function(countArray) {
 					}
 					// print the count
 					else {
-						_self.generateHelloNumber(countArray[index - 5], function(err, dest) {
+						_self.generateHelloNumber(countArray[index - 6], function(err, dest) {
 							if (dest && !err) {
 								printer
 									.printImage(dest)
@@ -91,11 +93,11 @@ Queue.prototype.printHello = function(countArray) {
 							}
 						});
 					}
-
 				},
 				function(err) {
 					console.log('[Printer] hello printed');
 					_self.canPrint = true;
+					callback(err);
 				}
 			);
 		}
@@ -299,7 +301,7 @@ Queue.prototype.handleValues = function(current) {
 			value: current.value
 		};
 	}
-	// water is in cl, divide by 100 
+	// water is in cl, divide by 100
 	else if (current._id === 'water') {
 		printValues = {
 			value: current.value / 100,

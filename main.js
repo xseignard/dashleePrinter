@@ -70,7 +70,9 @@ async.eachSeries(
 
 // button count
 var buttonCount = 0;
-
+// flag to check wether the button is active or not
+// it's not active when already printing
+var buttonActive = true;
 // handle keypress (test before button)
 // make `process.stdin` begin emitting "keypress" events
 keypress(process.stdin);
@@ -80,14 +82,19 @@ process.stdin.on('keypress', function (ch, key) {
 	if (key && key.ctrl && key.name == 'c') {
 		process.emit('SIGTERM');
 	}
-	else {
+	else if (buttonActive) {
+		// deactivate the button while printing the message
+		buttonActive = false;
 		buttonCount++;
 		var str = buttonCount.toString();
 		var length = str.length;
-		for (var i = length; i < 5; i++) {
+		for (var i = length; i < 4; i++) {
 			str = 0 + str + '';
 		}
-		queue.printHello(str.split(''));
+		queue.printHello(str.split(''), function(err) {
+			// the message has been printed, reactivate the button
+			buttonActive = true;
+		});
 	}
 });
 
