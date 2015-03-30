@@ -26,7 +26,7 @@ Install graphicsmagick: `sudo apt-get install graphicsmagick`
 `npm install`
 
 ## Plug the printers according to the schema
-
+Back of the Zotac ZBox computer:
 ![usb plug schema](/images/printers.png)
 
 ## Run it
