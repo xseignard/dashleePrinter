@@ -27,7 +27,11 @@ Install graphicsmagick: `sudo apt-get install graphicsmagick`
 
 ## Plug the printers according to the schema
 Back of the Zotac ZBox computer:
-![usb plug schema](/images/printers.png)
+![usb plug back](/images/schema/back.png)
+
+Front of the Zotac ZBox computer:
+![usb plug front](/images/schema/front.png)
+
 
 ## Run it
 

@@ -9,6 +9,7 @@
     "async": "^0.9.0",
     "cheerio": "cheeriojs/cheerio",
     "gm": "^1.17.0",
+    "johnny-five": "^0.8.50",
     "node-uuid": "^1.4.3",
     "rimraf": "^2.3.2",
     "serialport": "^1.6.2",
