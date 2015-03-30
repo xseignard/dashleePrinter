@@ -19,9 +19,7 @@ Install `ttf` fonts found on the fonts folder.
 
 ## Install non node dependencies
 
-See [https://github.com/Automattic/node-canvas/wiki/_pages](https://github.com/Automattic/node-canvas/wiki/_pages) and check for your specific OS.
-
-Also, install graphicsmagick: `sudo apt-get install graphicsmagick`
+Install graphicsmagick: `sudo apt-get install graphicsmagick`
 
 ## Install node dependencies
 
