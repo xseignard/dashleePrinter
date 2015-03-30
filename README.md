@@ -19,16 +19,14 @@ Install `ttf` fonts found on the fonts folder.
 
 ## Install non node dependencies
 
-See [https://github.com/Automattic/node-canvas/wiki/_pages](https://github.com/Automattic/node-canvas/wiki/_pages) and check for your specific OS.
-
-Also, install graphicsmagick: `sudo apt-get install graphicsmagick`
+Install graphicsmagick: `sudo apt-get install graphicsmagick`
 
 ## Install node dependencies
 
 `npm install`
 
 ## Plug the printers according to the schema
-
+Back of the Zotac ZBox computer:
 ![usb plug schema](/images/printers.png)
 
 ## Run it
