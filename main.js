@@ -10,7 +10,7 @@ var fs = require('fs'),
 	ports = Array.apply(null, Array(numberOfPrinters)).map(function (x, i) { return i + 1; }),
 	printers = [],
 	queue,
-	client
+	client,
 	board,
 	button,
 	led;
@@ -79,7 +79,7 @@ var buttonActive = true;
 var buttonTimeout = 10 * 60 * 1000;
 // handle button press
 board = new five.Board({
-	port: '/dev/button'
+	port: '/dev/ttyACM0'
 });
 
 board.on('ready', function() {
