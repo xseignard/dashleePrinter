@@ -4,13 +4,16 @@ var fs = require('fs'),
 	async = require('async'),
 	Printer = require('thermalprinter'),
 	io = require('socket.io-client'),
-	keypress = require('keypress'),
+	five = require('johnny-five'),
 	Queue = require('./queue'),
 	numberOfPrinters = 10,
 	ports = Array.apply(null, Array(numberOfPrinters)).map(function (x, i) { return i + 1; }),
 	printers = [],
 	queue,
-	client;
+	client
+	board,
+	button,
+	led;
 
 // printer opts
 var opts = {
@@ -71,35 +74,44 @@ async.eachSeries(
 // button count
 var buttonCount = 0;
 // flag to check wether the button is active or not
-// it's not active when already printing
+// it's not active for 10 minutes after being pressed
 var buttonActive = true;
-// handle keypress (test before button)
-// make `process.stdin` begin emitting "keypress" events
-keypress(process.stdin);
-
-// listen for the "keypress" event
-process.stdin.on('keypress', function (ch, key) {
-	if (key && key.ctrl && key.name == 'c') {
-		process.emit('SIGTERM');
-	}
-	else if (buttonActive) {
-		// deactivate the button while printing the message
-		buttonActive = false;
-		buttonCount++;
-		var str = buttonCount.toString();
-		var length = str.length;
-		for (var i = length; i < 4; i++) {
-			str = 0 + str + '';
-		}
-		queue.printHello(str.split(''), function(err) {
-			// the message has been printed, reactivate the button
-			buttonActive = true;
-		});
-	}
+var buttonTimeout = 10 * 60 * 1000;
+// handle button press
+board = new five.Board({
+	port: '/dev/button'
 });
 
-process.stdin.setRawMode(true);
-process.stdin.resume();
+board.on('ready', function() {
+
+	button = new five.Button({
+		pin: 2,
+		isPullup: true
+	});
+
+	led = new five.Led(6);
+	led.pulse(2000);
+
+	button.on('down', function(value) {
+		if (buttonActive) {
+			console.log('[Button] pressed');
+			buttonActive = false;
+			led.off();
+			buttonCount++;
+			var str = buttonCount.toString();
+			var length = str.length;
+			for (var i = length; i < 4; i++) {
+				str = 0 + str + '';
+			}
+			queue.printHello(str.split(''), function(err) {});
+			// reactivate the button after 10 minutes
+			setTimeout(function() {
+				led.pulse(2000);
+				buttonActive = true;
+			}, buttonTimeout);
+		}
+	});
+});
 
 // shutdown hook
 var cleanup = function () {
