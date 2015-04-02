@@ -48,25 +48,32 @@ async.eachSeries(
 	},
 	function(err) {
 		console.log('[Printer]: all ready!');
-		queue = new Queue(printers, tmpDir);
-		// handle incoming data in the queue
-		queue.on('data', function() {
-			queue.process();
-		});
 
-		// connect the program to the WS
-		client = io.connect('http://dashboard.sidlee.com/', { secure: true, transports: ['websocket'] });
-		client.on('connect', function() {
-			console.log('[Websocket] connected');
-		});
-		client.on('event', function(data) {
-			// add the event to the queue
-			queue.add(data);
-			// notify that there is some new data that can be printed
-			queue.emit('data');
-		});
-		client.on('disconnect', function() {
-			console.log('disconnected');
+		// request today values
+		var url = 'http://dashboard.sidlee.com/api/1/event/today';
+		request(url, function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+				queue = new Queue(printers, body, tmpDir);
+				// handle incoming data in the queue
+				queue.on('data', function() {
+					queue.process();
+				});
+
+				// connect the program to the WS
+				client = io.connect('http://dashboard.sidlee.com/', { secure: true, transports: ['websocket'] });
+				client.on('connect', function() {
+					console.log('[Websocket] connected');
+				});
+				client.on('event', function(data) {
+					// add the event to the queue
+					queue.add(data);
+					// notify that there is some new data that can be printed
+					queue.emit('data');
+				});
+				client.on('disconnect', function() {
+					console.log('disconnected');
+				});
+			}
 		});
 	}
 );
@@ -76,7 +83,7 @@ var buttonCount = 0;
 // flag to check wether the button is active or not
 // it's not active for 10 minutes after being pressed
 var buttonActive = true;
-var buttonTimeout = 10 * 60 * 1000;
+var buttonTimeout = 3000;
 // handle button press
 board = new five.Board({
 	port: '/dev/ttyACM0'
@@ -98,12 +105,10 @@ board.on('ready', function() {
 			buttonActive = false;
 			led.off();
 			buttonCount++;
-			var str = buttonCount.toString();
-			var length = str.length;
-			for (var i = length; i < 4; i++) {
-				str = 0 + str + '';
-			}
-			queue.printHello(str.split(''), function(err) {});
+			// add the event to the queue
+			queue.add({_id:'lightswitch', value:1});
+			// notify that there is some new data that can be printed
+			queue.emit('data');
 			// reactivate the button after 10 minutes
 			setTimeout(function() {
 				led.pulse(2000);

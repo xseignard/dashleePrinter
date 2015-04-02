@@ -11,23 +11,26 @@ var util = require('util'),
 /**
  * Queue constructor
  */
-var Queue = function(printers, tmpDir) {
+var Queue = function(printers, data, tmpDir) {
 	this.printers = printers;
 	this.queue = [];
 	this.availablePrinters = this.printers.slice(0);
 	this.tmpDir = tmpDir;
 	this.canPrint = true;
+	initValues(data);
 };
 util.inherits(Queue, EventEmitter);
 
 // object to maintain sum/avg for each sensors
 var values = {};
-for (var sensor in conf) {
-	values[sensor] = 0;
-}
-var currentVisits = 0;
-var currentLikes = 0;
-
+var initValues = function(data) {
+	JSON.parse(data).map(function(current) {
+		var id = current._id;
+		values[id] = current.value;
+	});
+	var currentVisits = values.visits;
+	var currentLikes = values.likes;
+};
 /**
  * Add the events to the queue, waiting to be printed
  */
