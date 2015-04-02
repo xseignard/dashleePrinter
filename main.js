@@ -79,8 +79,6 @@ async.eachSeries(
 	}
 );
 
-// button count
-var buttonCount = 0;
 // flag to check wether the button is active or not
 // it's not active for 10 minutes after being pressed
 var buttonActive = true;
@@ -89,6 +87,20 @@ var buttonTimeout = 3000;
 board = new five.Board({
 	port: '/dev/ttyACM0'
 });
+
+// push a button click
+var postPush = function() {
+	var url = 'http://dashboard.sidlee.com/api/1/event';
+
+	var event = {
+		name: 'lightswitch',
+		value: 1,
+		unit: 'click',
+		token: 'c7f2ad85-a221-6fbf-22e2-9bcca6994c75'
+	};
+
+	request.post({ method: "POST", url: url, json: true, body: event });
+};
 
 board.on('ready', function() {
 
@@ -105,11 +117,7 @@ board.on('ready', function() {
 			console.log('[Button] pressed');
 			buttonActive = false;
 			led.off();
-			buttonCount++;
-			// add the event to the queue
-			queue.add({_id:'lightswitch', value:1});
-			// notify that there is some new data that can be printed
-			queue.emit('data');
+			postPush();
 			// reactivate the button after 10 minutes
 			setTimeout(function() {
 				led.pulse(2000);
