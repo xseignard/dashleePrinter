@@ -23,13 +23,15 @@ util.inherits(Queue, EventEmitter);
 
 // object to maintain sum/avg for each sensors
 var values = {};
+var currentVisits = 0;
+var currentLikes = 0;
 var initValues = function(data) {
 	JSON.parse(data).map(function(current) {
 		var id = current._id;
 		values[id] = current.value;
 	});
-	var currentVisits = values.visits;
-	var currentLikes = values.likes;
+	currentVisits = values.visits;
+	currentLikes = values.likes;
 };
 /**
  * Add the events to the queue, waiting to be printed
