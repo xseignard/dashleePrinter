@@ -1,2 +1,2 @@
 #!/bin/bash
-cd ~/repos/dashleePrinter && node main.js
+cd ~/repos/dashleePrinter && supervisor main.js
