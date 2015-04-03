@@ -309,7 +309,7 @@ Queue.prototype.handleValues = function(current) {
 	// water is in cl, divide by 100
 	else if (current._id === 'water') {
 		printValues = {
-			value: current.value / 100,
+			value: current.value / 1000,
 			date: time
 		};
 	}
